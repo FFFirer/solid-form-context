@@ -1,6 +1,6 @@
 import { FieldName } from "./types";
 
-const IsNotUndefinedOrNull = <T>(obj?: T) : obj is T => {
+const IsNotUndefinedOrNull = <T>(obj?: T): obj is T => {
     return obj !== undefined && obj !== null
 }
 
@@ -22,7 +22,7 @@ export const IsObjectOrArray = (obj: any) => {
 }
 
 const ExistsProps = (props?: any, name?: string) => {
-    if(IsNotUndefinedOrNull(props) && typeof props === 'object' && IsNotUndefinedOrNull(name)) {
+    if (IsNotUndefinedOrNull(props) && typeof props === 'object' && IsNotUndefinedOrNull(name)) {
         return Object.keys(props).includes(name)
     }
 
