@@ -116,7 +116,9 @@ export const FieldContextProvider: ParentComponent<FieldContextProviderProps> = 
                 if (IsObjectOrArrayAccessible(nextValue)) {
                     nextValue[name()] = value;
 
-                    const refactored = refactor(nextValue)
+                    // 重新组合以适应数据变化，可以优化以减少重新计算子组件
+                    // 举例，重新给已有赋值时，不会认为该对象发生变化
+                    const refactored = refactor(nextValue); 
 
                     parentFieldContext.setValue(refactored);
                     props.onChange?.(refactored);

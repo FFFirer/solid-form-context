@@ -1,100 +1,50 @@
 import { createEffect, createSignal, on, type Component } from 'solid-js';
 
-import logo from './logo.svg';
 import styles from './App.module.css';
-import { Border, FieldContextProvider, FieldInput, FieldList, FieldTest } from './components/FieldContext';
+import { Border } from './components/FieldContext';
+import Form from '../lib/form';
+import { FormField, IFormInstance } from '../lib';
+import Input from './components/Input';
+import { FieldList2 } from './components/new-field-list';
 
 const App: Component = () => {
-  const [input, setInput] = createSignal('');
   const [value, setValue] = createSignal(undefined);
-  const convert = () => {
-    const json = JSON.parse(input());
-    console.log('json', json);
-    setValue(json);
-  }
 
   createEffect(on(value, (v) => {
-    console.log('new value!', v);
+    console.log('value changed!', JSON.stringify(v));
   }))
 
-  const submit = () => console.log('submit', value())
+  const [form, setForm] = createSignal<IFormInstance | undefined>(undefined)
+  const submit = () => form()?.submit();
 
   return (
     <div class={styles.App}>
-      <textarea oninput={e => setInput(e.target.value)}></textarea>
-      <button type='button' onclick={() => convert()}>convert</button>
-      <div>
-        <FieldContextProvider value={value()} onChange={setValue}>
-          <FieldContextProvider name={'id'}>
-            <FieldInput placeholder='id'></FieldInput>
-          </FieldContextProvider>
-          <FieldContextProvider name={'name'}>
-            <FieldInput placeholder='name'></FieldInput>
-          </FieldContextProvider>
-          <Border>
-            <FieldContextProvider name={'detail'}>
-              <FieldContextProvider name={'address'}>
-                <FieldInput placeholder='address'></FieldInput>
-              </FieldContextProvider>
-              <FieldContextProvider name={'email'}>
-                <FieldInput placeholder='email'></FieldInput>
-              </FieldContextProvider>
-            </FieldContextProvider>
-          </Border>
-          <Border>
-            <FieldContextProvider name={'items'}>
-              <FieldList></FieldList>
-            </FieldContextProvider>
-          </Border>
-        </FieldContextProvider>
+        <Border>
+          <Form onRef={setForm} onSubmit={setValue}>
+            <FormField name={'A'}>
+              <FormField name={'1'} control={Input} controlProps={{ placeholder: 'A-1...' }}></FormField>
+              <FormField name={'2'} control={Input} controlProps={{ placeholder: 'A-2...' }}></FormField>
+            </FormField>
+            <FormField name={'B'}>
+              <FormField name={'level1'}>
+                <FormField name={'level2'}>
+                  <FormField name={'level3'}
+                    control={(ctx: any) => <Border><Input {...ctx}></Input></Border>}
+                    controlProps={{ placeholder: 'level-3...' }}></FormField>
+                </FormField>
+              </FormField>
+            </FormField>
+            <FormField name={'C'}>
+              <FormField name={'c1'} control={(ctx: any) => <Border><Input {...ctx}></Input></Border>}
+                controlProps={{ placeholder: 'c1...' }}></FormField>
+              <FormField name={'items'}>
+                <FieldList2></FieldList2>
+              </FormField>
+            </FormField>
+          </Form>
 
-        <button type='button' onclick={submit}>submit</button>
-        {/* <FieldContextProvider value={value()} onChange={setValue}>
-        <FieldTest>
-          <FieldContextProvider name={'A'}>
-            <FieldTest>
-              <FieldContextProvider name={'1'}>
-                <FieldTest></FieldTest>
-              </FieldContextProvider>
-              <FieldContextProvider name={'2'}>
-                <FieldTest></FieldTest>
-              </FieldContextProvider>
-            </FieldTest>
-          </FieldContextProvider>
-          <FieldContextProvider name={'B'}>
-            <FieldTest>
-              <FieldContextProvider name={'3'}>
-                <FieldTest></FieldTest>
-              </FieldContextProvider>
-              <FieldContextProvider name={'4'}>
-                <FieldTest></FieldTest>
-                <FieldInput></FieldInput>
-              </FieldContextProvider>
-            </FieldTest>
-          </FieldContextProvider>
-          <FieldContextProvider name={'C'}>
-            <FieldTest>
-              <FieldContextProvider>
-                <FieldTest>
-                  <FieldContextProvider>
-                    <FieldTest>
-                      <FieldContextProvider name={'c1'}>
-                        <FieldContextProvider name={0}>
-                          <FieldTest></FieldTest>
-                        </FieldContextProvider>
-                      </FieldContextProvider>
-                      <FieldContextProvider name={'c2'}>
-                        <FieldInput placeholder='c2...'></FieldInput>
-                      </FieldContextProvider>
-                    </FieldTest>
-                  </FieldContextProvider>
-                </FieldTest>
-              </FieldContextProvider>
-            </FieldTest>
-          </FieldContextProvider>
-        </FieldTest>
-      </FieldContextProvider> */}
-      </div>
+          <button type='button' onclick={submit}>submit</button>
+        </Border>
     </div>
   );
 };
