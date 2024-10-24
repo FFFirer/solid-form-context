@@ -1,20 +1,27 @@
-import { createSignal, type Component } from 'solid-js';
+import { createEffect, createSignal, on, type Component } from 'solid-js';
 
 import logo from './logo.svg';
 import styles from './App.module.css';
-import { FieldContextProvider, FieldTest } from './components/FieldContext';
+import { FieldContextProvider, FieldInput, FieldTest } from './components/FieldContext';
 
 const App: Component = () => {
   const [input, setInput] = createSignal('');
   const [value, setValue] = createSignal(undefined);
   const convert = () => {
-    setValue(JSON.parse(input()));
+    const json = JSON.parse(input());
+    console.log('json', json);
+    setValue(json);
   }
+
+  createEffect(on(value, (v) => {
+    console.log('new value!', v);
+  }))
+
   return (
     <div class={styles.App}>
       <textarea oninput={e => setInput(e.target.value)}></textarea>
       <button type='button' onclick={() => convert()}>convert</button>
-      <FieldContextProvider value={value()}>
+      <FieldContextProvider value={value()} onChange={setValue}>
         <FieldTest>
           <FieldContextProvider name={'A'}>
             <FieldTest>
@@ -33,6 +40,7 @@ const App: Component = () => {
               </FieldContextProvider>
               <FieldContextProvider name={'4'}>
                 <FieldTest></FieldTest>
+                <FieldInput></FieldInput>
               </FieldContextProvider>
             </FieldTest>
           </FieldContextProvider>
@@ -46,6 +54,9 @@ const App: Component = () => {
                         <FieldContextProvider name={0}>
                           <FieldTest></FieldTest>
                         </FieldContextProvider>
+                      </FieldContextProvider>
+                      <FieldContextProvider name={'c2'}>
+                        <FieldInput placeholder='c2...'></FieldInput>
                       </FieldContextProvider>
                     </FieldTest>
                   </FieldContextProvider>
