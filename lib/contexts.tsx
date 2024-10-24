@@ -46,7 +46,7 @@ export const FieldContextProvider = <V = any>(props: ParentProps<FieldContextPro
     createEffect(on(_current_value, v => {
         if (hasFieldName()) {
             // 当前有字段值
-            field.onChange?.(v);    // 当前字段发生改变触发字段，若当前为透传中间节点则不触发
+            field.onValueChanged?.(v);    // 当前字段发生改变触发字段，若当前为透传中间节点则不触发
 
             parent_field.setValue?.((p) => {
                 if (utils.IsObjectOrArray(p)) {

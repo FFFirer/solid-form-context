@@ -52,14 +52,14 @@ export interface FieldContextProviderProps<V> extends ValueAccessor<V> {
 
 export interface ValueAccessor<V> {
     value?: V
-    onChange?: (value?: V) => void
+    onValueChanged?: (value?: V) => void
 }
 
 export type ValueAccessibleComponent<V, P extends ValueAccessor<V>> = Component<P> & ValidComponent
 
 export interface FormControlProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>>> {
     control?: C,
-    controlProps?: C extends (props: infer P) => JSXElement ? Omit<P, 'value' | 'onChange'> : {};
+    controlProps?: C extends (props: infer P) => JSXElement ? P : {};
 }
 
 export interface FieldProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>>> 
