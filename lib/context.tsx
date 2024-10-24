@@ -88,3 +88,5 @@ export const FieldContextProvider = <V = any>(props: ParentProps<FieldContextPro
 }
 
 export const FormContext = createContext<IFormInstance>()
+
+export const useFormContext = () => useContext(FormContext);
