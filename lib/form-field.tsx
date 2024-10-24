@@ -1,5 +1,5 @@
 import { createMemo, splitProps, useContext } from "solid-js";
-import { FieldProps, ValueAccessibleComponent, ValueAccessor } from "./types";
+import type { FieldProps, ValueAccessibleComponent, ValueAccessor } from "./types";
 import { FieldContextProvider, useFormContext } from "./contexts";
 import FormControl from "./form-control";
 import utils from "./utils";

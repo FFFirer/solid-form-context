@@ -1,5 +1,5 @@
-import { createEffect, createMemo, createSignal, mergeProps, on, ParentComponent, splitProps } from "solid-js";
-import { FormOptions, IFieldContextConfig, IFormInstance, RootFieldName } from "./types";
+import { createEffect, createMemo, createSignal, mergeProps, on, type ParentComponent, splitProps } from "solid-js";
+import { type FormOptions, type IFieldContextConfig, type IFormInstance, RootFieldName } from "./types";
 import { FieldContext, FormContext } from "./contexts";
 
 const Form: ParentComponent<FormOptions> = (p) => {

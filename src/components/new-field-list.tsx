@@ -1,5 +1,5 @@
-import { Component, createMemo, Index } from "solid-js";
-import { FieldContextProvider, FormField, useFieldContext } from "../../lib";
+import { type Component, createMemo, Index } from "solid-js";
+import { FormField, useFieldContext } from "../../lib";
 import { Border } from "./FieldContext";
 import Input from "./Input";
 

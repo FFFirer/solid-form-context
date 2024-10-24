@@ -1,5 +1,5 @@
-import { createContext, createEffect, createMemo, createSignal, on, ParentProps, splitProps, useContext } from "solid-js";
-import { IFieldContextConfig, FieldContextProviderProps, RootFieldName, FieldContextConfig, IFormInstance } from "./types";
+import { createContext, createEffect, createMemo, createSignal, on, type ParentProps, splitProps, useContext } from "solid-js";
+import { type IFieldContextConfig, type FieldContextProviderProps, RootFieldName, FieldContextConfig, type IFormInstance } from "./types";
 import utils from "./utils";
 
 const DefaultFieldContext: IFieldContextConfig = {

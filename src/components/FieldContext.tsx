@@ -1,4 +1,4 @@
-import { Accessor, Component, createComputed, createContext, createMemo, Index, JSX, JSXElement, mergeProps, ParentComponent, splitProps, useContext } from "solid-js"
+import { type Accessor, type Component, createComputed, createContext, createMemo, Index, type JSX, mergeProps, type ParentComponent, splitProps, useContext } from "solid-js"
 
 export type InternalNamePath = string | number
 
@@ -118,7 +118,7 @@ export const FieldContextProvider: ParentComponent<FieldContextProviderProps> = 
 
                     // 重新组合以适应数据变化，可以优化以减少重新计算子组件
                     // 举例，重新给已有赋值时，不会认为该对象发生变化
-                    const refactored = refactor(nextValue); 
+                    const refactored = refactor(nextValue);
 
                     parentFieldContext.setValue(refactored);
                     props.onChange?.(refactored);

@@ -1,4 +1,4 @@
-import { Accessor, Component, JSXElement, Setter, ValidComponent } from "solid-js";
+import type { Accessor, Component, JSXElement, Setter, ValidComponent } from "solid-js";
 
 export const RootFieldName = "$"
 

@@ -1,4 +1,4 @@
-import { FieldName } from "./types";
+import type { FieldName } from "./types";
 
 const IsNotUndefinedOrNull = <T>(obj?: T): obj is T => {
     return obj !== undefined && obj !== null
