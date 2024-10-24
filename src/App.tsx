@@ -2,7 +2,7 @@ import { createEffect, createSignal, on, type Component } from 'solid-js';
 
 import logo from './logo.svg';
 import styles from './App.module.css';
-import { FieldContextProvider, FieldInput, FieldTest } from './components/FieldContext';
+import { Border, FieldContextProvider, FieldInput, FieldList, FieldTest } from './components/FieldContext';
 
 const App: Component = () => {
   const [input, setInput] = createSignal('');
@@ -17,11 +17,39 @@ const App: Component = () => {
     console.log('new value!', v);
   }))
 
+  const submit = () => console.log('submit', value())
+
   return (
     <div class={styles.App}>
       <textarea oninput={e => setInput(e.target.value)}></textarea>
       <button type='button' onclick={() => convert()}>convert</button>
-      <FieldContextProvider value={value()} onChange={setValue}>
+      <div>
+        <FieldContextProvider value={value()} onChange={setValue}>
+          <FieldContextProvider name={'id'}>
+            <FieldInput placeholder='id'></FieldInput>
+          </FieldContextProvider>
+          <FieldContextProvider name={'name'}>
+            <FieldInput placeholder='name'></FieldInput>
+          </FieldContextProvider>
+          <Border>
+            <FieldContextProvider name={'detail'}>
+              <FieldContextProvider name={'address'}>
+                <FieldInput placeholder='address'></FieldInput>
+              </FieldContextProvider>
+              <FieldContextProvider name={'email'}>
+                <FieldInput placeholder='email'></FieldInput>
+              </FieldContextProvider>
+            </FieldContextProvider>
+          </Border>
+          <Border>
+            <FieldContextProvider name={'items'}>
+              <FieldList></FieldList>
+            </FieldContextProvider>
+          </Border>
+        </FieldContextProvider>
+
+        <button type='button' onclick={submit}>submit</button>
+        {/* <FieldContextProvider value={value()} onChange={setValue}>
         <FieldTest>
           <FieldContextProvider name={'A'}>
             <FieldTest>
@@ -65,7 +93,8 @@ const App: Component = () => {
             </FieldTest>
           </FieldContextProvider>
         </FieldTest>
-      </FieldContextProvider>
+      </FieldContextProvider> */}
+      </div>
     </div>
   );
 };
