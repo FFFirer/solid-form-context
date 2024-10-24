@@ -1,6 +1,6 @@
 import { createMemo } from "solid-js";
 import { Dynamic } from "solid-js/web";
-import { useFieldContext } from "./context";
+import { useFieldContext } from "./contexts";
 import { ValueAccessibleComponent, ValueAccessor, FormControlProps } from "./types";
 
 const FormControl = <V = any, C extends ValueAccessibleComponent<V, ValueAccessor<V>> = any>(props: FormControlProps<V, C>) => {

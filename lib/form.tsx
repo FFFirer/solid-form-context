@@ -1,6 +1,6 @@
 import { createEffect, createMemo, createSignal, mergeProps, on, ParentComponent, splitProps } from "solid-js";
 import { FormOptions, IFieldContextConfig, IFormInstance, RootFieldName } from "./types";
-import { FieldContext, FormContext } from "./context";
+import { FieldContext, FormContext } from "./contexts";
 
 const Form: ParentComponent<FormOptions> = (p) => {
     const [local, props] = splitProps(mergeProps({ disabled: false, readonly: false }, p), ['children']);
