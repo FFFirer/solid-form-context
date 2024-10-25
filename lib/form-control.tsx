@@ -3,7 +3,7 @@ import { Dynamic } from "solid-js/web";
 import { useFieldContext } from "./contexts";
 import { type ValueAccessibleComponent, type ValueAccessor, type FormControlProps } from "./types";
 
-const FormControl = <V = any, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent = any, P extends ComponentProps<C> = any, K extends keyof P = any>(p: FormControlProps<V, C, P, K>) => {
+const FormControl = <V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>(p: FormControlProps<V, C, P, K>) => {
   const props = mergeProps({ controlValuePropName: 'value' }, p)
 
   const context = useFieldContext();

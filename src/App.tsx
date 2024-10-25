@@ -3,7 +3,12 @@ import { createEffect, createSignal, on, type Component } from "solid-js";
 import styles from "./App.module.css";
 import { Border } from "./components/FieldContext";
 import Form from "../lib/form";
-import { FormField, type FormProps, type IFormInstance } from "../lib";
+import {
+  FormControl,
+  FormField,
+  type FormProps,
+  type IFormInstance,
+} from "../lib";
 import Input from "./components/Input";
 import { FieldList2 } from "./components/new-field-list";
 
@@ -56,6 +61,16 @@ const App: Component = () => {
                       setter?.(e.target.value),
                   }}
                 ></FormField>
+                <FormField name={"level3-2"}>
+                  <FormControl
+                    control={"input"}
+                    onControlValueChanged={{
+                      eventName: "oninput",
+                      generateHandler: (setter) => (e) =>
+                        setter?.(e.target.value),
+                    }}
+                  ></FormControl>
+                </FormField>
                 <FormField
                   name={"level3-checked"}
                   control={"input"}
