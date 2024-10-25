@@ -8,6 +8,9 @@
         "email": "0sdf0@sina.cn",
         "url": "https://github.com/FFFirer"
     },
+    "repository": {
+        "url": "https://github.com/FFFirer/solid-form-context"
+    },
     "scripts": {
         "start": "vite",
         "dev": "vite",
