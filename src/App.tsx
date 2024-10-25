@@ -30,8 +30,16 @@ const App: Component = () => {
                   control={(ctx: any) => <Border><Input {...ctx}></Input></Border>}
                   controlProps={{ placeholder: 'level-3...' }}></FormField>
                 <FormField name={'level3-1'}
-                  control={'input'} controlProps={{ placeholder: 'level3-1...'}}
+                  control={'input'} controlProps={{ placeholder: 'level3-1...' }}
                   onControlValueChanged={{ eventName: 'oninput', generateHandler: setter => e => setter?.(e.target.value) }}></FormField>
+                <FormField name={'level3-checked'}
+                  control={'input'}
+                  controlProps={{ type: 'checkbox' }}
+                  controlValuePropName={'checked'}
+                  onControlValueChanged={{
+                    eventName: 'onchange',
+                    generateHandler: setter => e => setter?.(e.target.checked)
+                  }}>checkbox</FormField>
               </FormField>
             </FormField>
           </FormField>
