@@ -79,10 +79,10 @@ export interface IFormInstance {
     readonly: Accessor<boolean>
 }
 
-export interface FormOptions {
-    initialValue?: any
+export interface FormProps<V = any> extends ValueAccessor<V> {
+    initialValue?: V
     disabled?: boolean
     readonly?: boolean
-    onSubmit?: (value: any) => void;
+    onSubmit?: (value?: V) => void;
     onRef?: (form: IFormInstance) => void;
 }

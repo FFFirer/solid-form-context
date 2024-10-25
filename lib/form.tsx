@@ -1,11 +1,12 @@
-import { createEffect, createMemo, createSignal, mergeProps, on, type ParentComponent, splitProps } from "solid-js";
-import { type FormOptions, type IFieldContextConfig, type IFormInstance, RootFieldName } from "./types";
+import { createEffect, createMemo, createSignal, mergeProps, on, type ParentComponent, type ParentProps, splitProps } from "solid-js";
+import { type FormProps, type IFieldContextConfig, type IFormInstance, RootFieldName } from "./types";
 import { FieldContext, FormContext } from "./contexts";
 
-const Form: ParentComponent<FormOptions> = (p) => {
+const Form = <V = any>(p: ParentProps<FormProps<V>>) => {
+
   const [local, props] = splitProps(mergeProps({ disabled: false, readonly: false }, p), ['children']);
 
-  const [value, setValue] = createSignal(props.initialValue);
+  const [value, setValue] = createSignal<V | undefined>(props.initialValue);
 
   const form = createMemo(() => {
     const instance: IFormInstance = {
@@ -20,6 +21,8 @@ const Form: ParentComponent<FormOptions> = (p) => {
     return instance;
   })
 
+  createEffect(() => setValue(props.value as any))
+  createEffect(on(value, v => props.onValueChanged?.(v)))
   createEffect(on(form, v => props.onRef?.(v)))
 
   const field = createMemo(() => {

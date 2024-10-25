@@ -3,7 +3,7 @@ import { createEffect, createSignal, on, type Component } from 'solid-js';
 import styles from './App.module.css';
 import { Border } from './components/FieldContext';
 import Form from '../lib/form';
-import { FormField, type FormOptions, type IFormInstance } from '../lib';
+import { FormField, type FormProps, type IFormInstance } from '../lib';
 import Input from './components/Input';
 import { FieldList2 } from './components/new-field-list';
 
@@ -11,14 +11,14 @@ const App: Component = () => {
 
   const [form, setForm] = createSignal<IFormInstance | undefined>(undefined)
   const submit = () => form()?.submit();
-  const handleSubmit: FormOptions['onSubmit'] = (value) => {
+  const handleSubmit: FormProps['onSubmit'] = (value) => {
     console.log('submited!', value);
   }
 
   return (
     <div class={styles.App}>
       <Border>
-        <Form onRef={setForm} onSubmit={handleSubmit}>
+        <Form onRef={setForm} onSubmit={handleSubmit} onValueChanged={v => console.log('form value changed', v)}>
           <FormField name={'A'}>
             <FormField name={'1'} control={Input} controlProps={{ placeholder: 'A-1...' }}></FormField>
             <FormField name={'2'} control={Input} controlProps={{ placeholder: 'A-2...' }}></FormField>

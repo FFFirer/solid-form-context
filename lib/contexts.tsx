@@ -44,6 +44,10 @@ export const FieldContextProvider = <V = any>(props: ParentProps<FieldContextPro
   const [_current_value, _set_current_value] = createSignal(current_value())
 
   createEffect(on(_current_value, v => {
+    if(v === current_value()) {
+      return; // 值未变化时不刷新
+    }
+
     if (hasFieldName()) {
       // 当前有字段值
       field.onValueChanged?.(v);    // 当前字段发生改变触发字段，若当前为透传中间节点则不触发

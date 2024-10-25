@@ -11,11 +11,13 @@ const FormControl = <V = any, C extends ValueAccessibleComponent<V, ValueAccesso
 
     const valueAccessor: any = {
       [props.controlValuePropName]: context.value(),
-      onValueChanged: context.setValue
     }
 
-    if(props.onControlValueChanged) {
+    if (props.onControlValueChanged) {
       valueAccessor[props.onControlValueChanged.eventName] = props.onControlValueChanged.generateHandler(context.setValue);
+    }
+    else {
+      valueAccessor['onValueChanged'] = context.setValue
     }
 
     return {
