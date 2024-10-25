@@ -2,6 +2,7 @@
     "name": "solid-form-context",
     "version": "0.0.3",
     "description": "solid form utils",
+    "keywords": ["solid", "solid-js", "form"],
     "author": {
         "name": "FFFirer",
         "email": "0sdf0@sina.cn",
