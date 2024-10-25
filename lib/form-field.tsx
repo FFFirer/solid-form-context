@@ -1,10 +1,10 @@
 import { createMemo, splitProps, useContext, type ComponentProps, type ValidComponent } from "solid-js";
-import type { FieldProps, ValueAccessibleComponent, ValueAccessor } from "./types";
+import type { FormFieldProps, ValueAccessibleComponent, ValueAccessor } from "./types";
 import { FieldContextProvider, useFormContext } from "./contexts";
 import FormControl from "./form-control";
 import utils from "./utils";
 
-const FormField = <V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>(props: FieldProps<V, C, P, K>) => {
+const FormField = <V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>(props: FormFieldProps<V, C, P, K>) => {
   const [local, field] = splitProps(props, ['control', 'controlProps', 'controlValuePropName', 'onControlValueChanged', 'children'])
   const form = useFormContext();
 

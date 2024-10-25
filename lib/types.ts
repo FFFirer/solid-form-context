@@ -67,7 +67,7 @@ export interface FormControlProps<V, C extends ValueAccessibleComponent<V, Value
     }
 }
 
-export interface FieldProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>
+export interface FormFieldProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>
     extends FieldContextProviderProps<V>, FormControlProps<V, C, P, K> {
     children?: JSXElement
 }
