@@ -59,7 +59,7 @@ export type ValueAccessibleComponent<V, P extends ValueAccessor<V>> = Component<
 
 export interface FormControlProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P> {
     control?: C,
-    controlProps?: Partial<ComponentProps<C>>;
+    controlProps?: ComponentProps<C>;
     controlValuePropName?: K,
     onControlValueChanged?: {
         eventName: K,
