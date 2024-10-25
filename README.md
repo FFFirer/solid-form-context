@@ -27,3 +27,9 @@
 ### 2. FieldContext
 
 定义一个字段的范围，提供从范围中获取值与设置值的能力，并自动手机到最顶层的Form内
+
+## Headless
+
+### createFormCore
+
+构建form的核心逻辑

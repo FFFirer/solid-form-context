@@ -86,3 +86,10 @@ export interface FormProps<V = any> extends ValueAccessor<V> {
     onSubmit?: (value?: V) => void;
     onRef?: (form: IFormInstance) => void;
 }
+
+export interface FormCore<V> {
+    instance: Accessor<IFormInstance>
+    value: Accessor<V | undefined>
+    setValue: Setter<V | undefined>
+    root: Accessor<IFieldContextConfig<V>>
+}
