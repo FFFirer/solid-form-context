@@ -1,4 +1,4 @@
-import type { Accessor, Component, JSXElement, Setter, ValidComponent } from "solid-js";
+import type { Accessor, Component, ComponentProps, JSXElement, Setter, ValidComponent } from "solid-js";
 
 export const RootFieldName = "$"
 
@@ -57,13 +57,18 @@ export interface ValueAccessor<V> {
 
 export type ValueAccessibleComponent<V, P extends ValueAccessor<V>> = Component<P> & ValidComponent
 
-export interface FormControlProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>>> {
+export interface FormControlProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P> {
     control?: C,
-    controlProps?: C extends (props: infer P) => JSXElement ? P : {};
+    controlProps?: ComponentProps<C>;
+    controlValuePropName?: K,
+    onControlValueChanged?: {
+        eventName: K,
+        generateHandler: (setter?: Setter<V>) => P[K];
+    }
 }
 
-export interface FieldProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>>>
-    extends FieldContextProviderProps<V>, FormControlProps<V, C> {
+export interface FieldProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>
+    extends FieldContextProviderProps<V>, FormControlProps<V, C, P, K> {
     children?: JSXElement
 }
 
