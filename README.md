@@ -1,7 +1,5 @@
 # solid-form-context
 
-## Form
-
 ```javascript
 const [form, setForm] = createSignal <IFormInstance | undefined>(undefined);
 
@@ -39,6 +37,8 @@ const checkbox = (props: ValueAccessor<boolean> & Omit<JSX.InputHtmlAttributes<H
     <FormField name="enabled" control={checkbox}></FormField>
 </Form>
 ```
+
+## Form
 
 定义一个表单的范围，提供设置表单对象值，提交表单的方法
 
