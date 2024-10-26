@@ -1,41 +1,62 @@
 # solid-form-context
 
-```javascript
-const [form, setForm] = createSignal <IFormInstance | undefined>(undefined);
+```jsx
+const [form, setForm] =
+  (createSignal < IFormInstance) | (undefined > undefined);
 
 // manual submit
-const submit = () => form()?.submit()
+const submit = () => form()?.submit();
 
 // wrap html element by ValueAccessor<T>
-const checkbox = (props: ValueAccessor<boolean> & Omit<JSX.InputHtmlAttributes<HtmlInputElement>, 'value'>) => {
-    const [local, elProps] = splitProps(mergeProps({ type: 'checkbox'}, props), ["value", 'onValueChanged'])
+const checkbox = (
+  props: ValueAccessor<boolean> &
+    Omit<JSX.InputHtmlAttributes<HtmlInputElement>, "value">
+) => {
+  const [local, elProps] = splitProps(mergeProps({ type: "checkbox" }, props), [
+    "value",
+    "onValueChanged",
+  ]);
 
-    const handleValueChanged = e => local.onValueChanged?.(e.target.checked)
+  const handleValueChanged = (e) => local.onValueChanged?.(e.target.checked);
 
-    return <input {...elProps} checked={local.value} onChange={handleValueChanged}></input>
-}
+  return (
+    <input
+      {...elProps}
+      checked={local.value}
+      onChange={handleValueChanged}
+    ></input>
+  );
+};
 
-<Form onRef={setForm} onSubmit={(value) => {console.log("get submitted value", value)} }>
+<Form
+  onRef={setForm}
+  onSubmit={(value) => {
+    console.log("get submitted value", value);
+  }}
+>
+  <FormField
+    name="id"
+    control={"input"}
+    controlProps={{ type: "number" }}
+    onControlValueChanged={{
+      eventName: "oninput",
+      generateHandler: (setter) => (e) => setter?.(e.target.value),
+    }}
+  ></FormField>
 
-    <FormField name="id"
-        control={'input'}
-        controlProps={{ type: 'number' }}
-        onControlValueChanged={{
-            eventName: "oninput",
-            generateHandler: (setter) => (e) => setter?.(e.target.value),
-        }}></FormField>
+  <FormField name="name">
+    <FormControl
+      control={"input"}
+      controlProps={{ type: "text" }}
+      onControlValueChanged={{
+        eventName: "oninput",
+        generateHandler: (setter) => (e) => setter?.(e.target.value),
+      }}
+    ></FormControl>
+  </FormField>
 
-    <FormField name="name">
-        <FormControl control={'input'}
-            controlProps={{ type: 'text' }}
-            onControlValueChanged={{
-                eventName: "oninput",
-                generateHandler: (setter) => (e) => setter?.(e.target.value),
-        }}></FormControl>
-    </FormField>
-
-    <FormField name="enabled" control={checkbox}></FormField>
-</Form>
+  <FormField name="enabled" control={checkbox}></FormField>
+</Form>;
 ```
 
 ## Form
@@ -52,15 +73,71 @@ const checkbox = (props: ValueAccessor<boolean> & Omit<JSX.InputHtmlAttributes<H
 
 1. 提供字段值与控件的自动值绑定
 2. 可扩展，默认情况下仅需实现`value`属性及`onValueChanged`事件，`value`提供值的获取，`onValueChanged`提供值得更新
+
+```jsx
+const checkbox = (
+  props: ValueAccessor<boolean> &
+    Omit<JSX.InputHtmlAttributes<HtmlInputElement>, "value">
+) => {
+  const [local, elProps] = splitProps(mergeProps({ type: "checkbox" }, props), [
+    "value",
+    "onValueChanged",
+  ]);
+
+  const handleValueChanged = (e) => local.onValueChanged?.(e.target.checked);
+
+  return (
+    <input
+      {...elProps}
+      checked={local.value}
+      onChange={handleValueChanged}
+    ></input>
+  );
+};
+
+<FormControl control={checkbox}></FormControl>;
+```
+
 3. 值属性名称非`value`，使用`controlValuePropName`指定要设置值的属性
 4. 当控件无`onValueChanged`事件时，设置`onControlValueChanegd`以指定当指定事件发生时如何处理值的更新
+
+```jsx
+<FormControl
+  control={"input"}
+  controlProps={{ type: "checkbox" }}
+  controlValuePropName="checked"
+  onControlValueChanged={{
+    eventName: "oninput",
+    generateHandler: (setter) => (e) => setter?.(e.target.checked),
+  }}
+></FormControl>
+```
+
 5. 以上`3`和`4`点`FormField`控件同样支持，因为内部也是使用`FormControl`控件实现，会透传对应 props
+
+```jsx
+<FormField
+  name="id"
+  control={"input"}
+  controlProps={{ type: "number" }}
+  onControlValueChanged={{
+    eventName: "oninput",
+    generateHandler: (setter) => (e) => setter?.(e.target.value),
+  }}
+></FormField>
+```
 
 ## Contexts
 
 ### 1. FormContext
 
 为 Form 内部提供统一的配置信息，目前只提供最基础的 submit 功能
+
+```javascript
+const form = useFormContext();
+
+form.submit();
+```
 
 ### 2. FieldContext
 
