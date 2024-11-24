@@ -5,4 +5,5 @@ export { default as Form } from './form'
 export { default as utils } from './utils'
 export * from './core'
 
+export * from './types'
 export type * from './types'
