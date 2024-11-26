@@ -41,8 +41,8 @@ const FormField = <
     return {
       ...ctrlProps,
       ...local.controlProps,
-      disabled: form?.disabled() ?? local.controlProps?.disabled,
-      readonly: form?.readonly() ?? local.controlProps?.readonly,
+      disabled: form?.disabled() || local.controlProps?.disabled,
+      readonly: form?.readonly() || local.controlProps?.readonly,
     } as any;
   });
 
