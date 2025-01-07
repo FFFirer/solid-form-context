@@ -65,6 +65,7 @@ export interface FormControlProps<V, C extends ValueAccessibleComponent<V, Value
         eventName: K,
         generateHandler: (setter?: Setter<V>) => P[K];
     }
+    defaultValue?: V
 }
 
 export interface FormFieldProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>

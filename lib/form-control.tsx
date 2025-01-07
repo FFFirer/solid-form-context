@@ -1,4 +1,4 @@
-import { createMemo, mergeProps, splitProps, type ComponentProps, type ValidComponent } from "solid-js";
+import { createMemo, createRenderEffect, mergeProps, splitProps, type ComponentProps, type ValidComponent } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { useFieldContext } from "./contexts";
 import { type ValueAccessibleComponent, type ValueAccessor, type FormControlProps } from "./types";
@@ -24,6 +24,10 @@ const FormControl = <V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> 
       ...props.controlProps,
       ...valueAccessor
     }
+  })
+
+  createRenderEffect(() => {
+    context?.setValue?.(prev => (props.controlProps?.[props.controlValuePropName] ?? props.defaultValue));
   })
 
   return <>
