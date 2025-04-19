@@ -48,12 +48,14 @@ const FormField = <
 
   return (
     <FieldContextProvider {...field}>
-      <FormControl
-        control={local.control}
-        controlProps={controlProps()}
-        controlValuePropName={local.controlValuePropName}
-        onControlValueChanged={local.onControlValueChanged}
-      ></FormControl>
+      {local.control && (
+        <FormControl
+          control={local.control}
+          controlProps={controlProps()}
+          controlValuePropName={local.controlValuePropName}
+          onControlValueChanged={local.onControlValueChanged}
+        ></FormControl>
+      )}
       {local.children}
     </FieldContextProvider>
   );

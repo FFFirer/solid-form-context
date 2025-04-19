@@ -1,4 +1,12 @@
-import { createEffect, createSignal, on, type Component } from "solid-js";
+import {
+  createEffect,
+  createSignal,
+  Match,
+  on,
+  Show,
+  Switch,
+  type Component,
+} from "solid-js";
 
 import styles from "./App.module.css";
 import { Border } from "./components/FieldContext";
@@ -18,6 +26,8 @@ const App: Component = () => {
   const handleSubmit: FormProps["onSubmit"] = (value) => {
     console.log("submited!", value);
   };
+
+  const [state, setState] = createSignal("");
 
   return (
     <div class={styles.App}>
@@ -101,6 +111,99 @@ const App: Component = () => {
               <FieldList2></FieldList2>
             </FormField>
           </FormField>
+          <Border>
+            <FormField name={"Tabs"} onValueChanged={setState} value={state()}>
+              <FormControl
+                control={"select"}
+                controlProps={{
+                  children: (
+                    <>
+                      <option value={"a"}>a</option>
+                      <option value={"b"}>b</option>
+                      <option value={"c"}>c</option>
+                      <option value={"d"}>d</option>
+                    </>
+                  ),
+                }}
+                controlValuePropName="value"
+                onControlValueChanged={{
+                  eventName: "onChange",
+                  generateHandler: (setter) => (e) => setter?.(e.target.value),
+                }}
+              ></FormControl>
+            </FormField>
+
+            {/* <Show when={state() === "a"}>
+              <FormField name={"a_value"}>
+                <FormControl
+                  control={"input"}
+                  controlProps={{ type: "text", placeholder: "a value" }}
+                  onControlValueChanged={{
+                    eventName: "onChange",
+                    generateHandler: (setter) => (e) =>
+                      setter?.(e.target.value),
+                  }}
+                ></FormControl>
+              </FormField>
+            </Show> */}
+            <Switch>
+              <Match when={state() === "a"}>
+                <FormField name={"a_value"}>
+                  <FormControl
+                    control={"input"}
+                    controlProps={{ type: "text", placeholder: "a value" }}
+                    onControlValueChanged={{
+                      eventName: "onChange",
+                      generateHandler: (setter) => (e) =>
+                        setter?.(e.target.value),
+                    }}
+                  ></FormControl>
+                </FormField>
+              </Match>
+
+              <Match when={state() === "b"}>
+                <FormField name={"b_value"}>
+                  <FormControl
+                    control={"input"}
+                    controlProps={{ type: "text", placeholder: "b value" }}
+                    onControlValueChanged={{
+                      eventName: "onChange",
+                      generateHandler: (setter) => (e) =>
+                        setter?.(e.target.value),
+                    }}
+                  ></FormControl>
+                </FormField>
+              </Match>
+
+              <Match when={state() === "c"}>
+                <FormField name={"c_value"}>
+                  <FormControl
+                    control={"input"}
+                    controlProps={{ type: "text", placeholder: "c value" }}
+                    onControlValueChanged={{
+                      eventName: "onChange",
+                      generateHandler: (setter) => (e) =>
+                        setter?.(e.target.value),
+                    }}
+                  ></FormControl>
+                </FormField>
+              </Match>
+
+              <Match when={state() === "d"}>
+                <FormField name={"d_value"}>
+                  <FormControl
+                    control={"input"}
+                    controlProps={{ type: "text", placeholder: "d value" }}
+                    onControlValueChanged={{
+                      eventName: "onChange",
+                      generateHandler: (setter) => (e) =>
+                        setter?.(e.target.value),
+                    }}
+                  ></FormControl>
+                </FormField>
+              </Match>
+            </Switch>
+          </Border>
         </Form>
 
         <button type="button" onclick={submit}>

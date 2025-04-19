@@ -24,16 +24,18 @@ export interface IFieldContextConfig<V = any> {
     value: Accessor<V>
     defaultValue: Accessor<V>
     setValue?: Setter<V>
+    deleteField?: () => void
 }
 
 export class FieldContextConfig implements IFieldContextConfig {
-    constructor(name: Accessor<FieldName>, path: Accessor<FieldPath>, isArray: Accessor<boolean>, value: Accessor<any>, defaultValue: Accessor<any>, setValue?: Setter<any>) {
+    constructor(name: Accessor<FieldName>, path: Accessor<FieldPath>, isArray: Accessor<boolean>, value: Accessor<any>, defaultValue: Accessor<any>, setValue?: Setter<any>, deleteField?: () => void) {
         this.name = name;
         this.path = path;
         this.isArray = isArray;
         this.value = value;
         this.defaultValue = defaultValue;
         this.setValue = setValue;
+        this.deleteField = deleteField;
     }
     name: Accessor<FieldName>;
     path: Accessor<FieldPath>;
@@ -41,7 +43,7 @@ export class FieldContextConfig implements IFieldContextConfig {
     value: Accessor<any>;
     defaultValue: Accessor<any>;
     setValue?: Setter<any> | undefined;
-
+    deleteField?: (() => void) | undefined;
 }
 
 export interface FieldContextProviderProps<V> extends ValueAccessor<V> {

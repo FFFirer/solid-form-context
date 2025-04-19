@@ -1,4 +1,5 @@
-import type { FieldName } from "./types";
+import type { ComponentProps, JSXElement, ValidComponent } from "solid-js";
+import type { FieldName, ValueAccessor } from "./types";
 
 const IsNotUndefinedOrNull = <T>(obj?: T): obj is T => {
     return obj !== undefined && obj !== null
@@ -42,6 +43,14 @@ const RebuildObj = (obj: any) => {
     }
 
     return obj
+}
+
+export type LogFunc = (...data: any[]) => void;
+
+export const Log: LogFunc = (...data: any[]) => {
+    if ((window as any).SOLIDFORMCONTEXTLOGGER as any) {
+        (window as any).SOLIDFORMCONTEXTLOGGER?.(...data);
+    }
 }
 
 export default {
