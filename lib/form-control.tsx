@@ -1,12 +1,9 @@
 import {
   createMemo,
   createRenderEffect,
-  JSX,
-  Match,
+  type JSX,
   mergeProps,
   onCleanup,
-  onMount,
-  splitProps,
   type ComponentProps,
   type Setter,
   type ValidComponent,
