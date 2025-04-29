@@ -127,6 +127,43 @@ const checkbox = (
 ></FormField>
 ```
 
+## FormList
+
+```tsx
+<Form>
+  <FormList name="items">
+    {(fields, { add, remove, clear }) => (
+      <>
+        <button type="button" onClick={() => add()}>
+          add
+        </button>
+        <button type="button" onClick={() => clear()}>
+          clear
+        </button>
+        <Index each={fields()}>
+          {(field, index) => (
+            <div>
+              <FormField {...field()}>
+                <FormInput placeholder={`index-${index}`} />
+                <button type="button" onClick={() => remove(index)}>
+                  remove
+                </button>
+              </FormField>
+            </div>
+          )}
+        </Index>
+      </>
+    )}
+  </FormList>
+</Form>
+```
+
+```json
+{
+  "items": [undefind, undefind]
+}
+```
+
 ## Contexts
 
 ### 1. FormContext
