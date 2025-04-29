@@ -34,7 +34,7 @@ const FormControl = <
   const context = useFieldContext();
   const fieldId = createMemo(() => {
     const path = context.path().join(".");
-    return path;
+    return `${path}[${context.deep ?? -1}]`;
   });
 
   const controlProps = createMemo(() => {

@@ -1,6 +1,7 @@
 import {
   createEffect,
   createSignal,
+  Index,
   Match,
   on,
   Show,
@@ -20,6 +21,8 @@ import {
 import Input from "./components/Input";
 import { FieldList2 } from "./components/new-field-list";
 import { withFormControl } from "@lib/form-control";
+import FormList from "@lib/form-list";
+import { Log } from "@lib/utils";
 
 const FormInput = withFormControl("input");
 const FormCheckbox = withFormControl("input", {
@@ -42,7 +45,9 @@ const App: Component = () => {
         <Form
           onRef={setForm}
           onSubmit={handleSubmit}
-          onValueChanged={(v) => console.log("form value changed", v)}
+          onValueChanged={(v) => {
+            // console.log("form value changed", v);
+          }}
         >
           <FormField name={"A"}>
             <FormField
@@ -118,6 +123,31 @@ const App: Component = () => {
               <FieldList2></FieldList2>
             </FormField>
           </FormField>
+          <Border>
+            <FormField name={"nested"}>
+              <FormList name="items2">
+                {(fields, { add, remove }) => (
+                  <>
+                    <button type="button" onClick={() => add()}>
+                      add
+                    </button>
+                    <Index each={fields()}>
+                      {(field, index) => (
+                        <div>
+                          <FormField {...field()}>
+                            <FormInput placeholder={`index-${index}`} />
+                            <button type="button" onClick={() => remove(index)}>
+                              remove
+                            </button>
+                          </FormField>
+                        </div>
+                      )}
+                    </Index>
+                  </>
+                )}
+              </FormList>
+            </FormField>
+          </Border>
           <Border>
             <FormField name={"Tabs"} onValueChanged={setState} value={state()}>
               <FormControl
@@ -222,6 +252,37 @@ const App: Component = () => {
         <button type="button" onclick={submit}>
           submit
         </button>
+      </Border>
+
+      <Border>
+        <h1>TEST-2</h1>
+        <Form onValueChanged={(v) => Log("[TEST-2] values changed:", v)}>
+          <FormList>
+            {(fields, { add, remove, clear }) => (
+              <>
+                <button type="button" onClick={() => add()}>
+                  add
+                </button>
+
+                <button type="button" onClick={() => clear()}>
+                  clear
+                </button>
+                <Index each={fields()}>
+                  {(field, index) => (
+                    <div>
+                      <FormField {...field()}>
+                        <FormInput placeholder={`index-${index}`} />
+                        <button type="button" onClick={() => remove(index)}>
+                          remove
+                        </button>
+                      </FormField>
+                    </div>
+                  )}
+                </Index>
+              </>
+            )}
+          </FormList>
+        </Form>
       </Border>
     </div>
   );

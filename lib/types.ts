@@ -1,3 +1,4 @@
+import type { FieldProps } from "@src/components/FieldContext";
 import type { Accessor, Component, ComponentProps, JSXElement, Setter, ValidComponent } from "solid-js";
 
 export const RootFieldName = "$"
@@ -25,10 +26,19 @@ export interface IFieldContextConfig<V = any> {
     defaultValue: Accessor<V>
     setValue?: Setter<V>
     deleteField?: () => void
+    deep?: number
 }
 
 export class FieldContextConfig implements IFieldContextConfig {
-    constructor(name: Accessor<FieldName>, path: Accessor<FieldPath>, isArray: Accessor<boolean>, value: Accessor<any>, defaultValue: Accessor<any>, setValue?: Setter<any>, deleteField?: () => void) {
+    constructor(
+        name: Accessor<FieldName>,
+        path: Accessor<FieldPath>,
+        isArray: Accessor<boolean>,
+        value: Accessor<any>,
+        defaultValue: Accessor<any>,
+        setValue?: Setter<any>,
+        deleteField?: () => void,
+        deep?: number) {
         this.name = name;
         this.path = path;
         this.isArray = isArray;
@@ -36,6 +46,7 @@ export class FieldContextConfig implements IFieldContextConfig {
         this.defaultValue = defaultValue;
         this.setValue = setValue;
         this.deleteField = deleteField;
+        this.deep = deep;
     }
     name: Accessor<FieldName>;
     path: Accessor<FieldPath>;
@@ -44,6 +55,7 @@ export class FieldContextConfig implements IFieldContextConfig {
     defaultValue: Accessor<any>;
     setValue?: Setter<any> | undefined;
     deleteField?: (() => void) | undefined;
+    deep?: number | undefined;
 }
 
 export interface FieldContextProviderProps<V> extends ValueAccessor<V> {
@@ -68,6 +80,18 @@ export interface FormControlProps<V, C extends ValueAccessibleComponent<V, Value
         generateHandler: (setter?: Setter<V>) => P[K];
     }
     defaultValue?: V
+}
+
+export type FormListControlAddHandler = (value?: any, index?: number) => void;
+export type FormListControlRemoveHandler = (index: number) => void;
+export type FormListControlHandlers = { add: FormListControlAddHandler, remove: FormListControlRemoveHandler, clear: FormListControlClearHandler }
+export type FormListControlClearHandler = () => void;
+
+export interface FormListControlProps {
+    children?: (fields: Accessor<FieldProps[]>, handlers: FormListControlHandlers) => JSXElement
+}
+export interface FormListProps extends FormListControlProps {
+    name?: string,
 }
 
 export interface FormFieldProps<V, C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent, P extends ComponentProps<C>, K extends keyof P>

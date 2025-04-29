@@ -16,6 +16,7 @@ import {
   type IFormInstance,
 } from "./types";
 import utils from "./utils";
+import { IsNotUndefinedOrNull } from "@src/components/FieldContext";
 
 const DefaultFieldContext: IFieldContextConfig = {
   name: () => RootFieldName,
@@ -25,6 +26,7 @@ const DefaultFieldContext: IFieldContextConfig = {
   defaultValue: () => undefined,
   setValue: undefined,
   deleteField: () => {},
+  deep: undefined,
 };
 
 export const FieldContext = createContext(DefaultFieldContext);
@@ -42,9 +44,7 @@ export const FieldContextProvider = <V = any,>(
   const parent_defaultValue = createMemo(() => parent_field.defaultValue());
 
   const hasFieldName = createMemo(() => utils.IsValidFieldName(field.name));
-  const current_is_array = createMemo(() =>
-    hasFieldName() ? field.isArray ?? false : parent_field.isArray()
-  );
+
   const current_name = createMemo(() =>
     utils.IsValidFieldName(field.name) ? field.name : parent_field.name()
   );
@@ -66,6 +66,14 @@ export const FieldContextProvider = <V = any,>(
       return parent_value();
     }
   });
+  const current_is_array = createMemo(() =>
+    hasFieldName()
+      ? (IsNotUndefinedOrNull(current_value()) &&
+          Array.isArray(current_value())) ||
+        (field.isArray ?? false)
+      : parent_field.isArray()
+  );
+  const isRoot = createMemo(() => parent_field === undefined);
 
   // 内部状态
   const [_current_value, _set_current_value] = createSignal(current_value());
@@ -84,15 +92,13 @@ export const FieldContextProvider = <V = any,>(
           if (utils.IsObjectOrArray(p)) {
             p[current_name()] = v;
             return utils.RebuildObj(p);
-          } else if (!field.isArray) {
-            return { [current_name()]: v };
-          } else if (field.isArray) {
+          } else if (parent_field.isArray()) {
             const index = parseInt(current_name() as string);
             const array = Array.from({ length: index + 1 });
             array[index] = v;
             return array;
           } else {
-            return v;
+            return { [current_name()]: v };
           }
         });
       } else {
@@ -111,7 +117,9 @@ export const FieldContextProvider = <V = any,>(
     if (hasFieldName()) {
       const _p = parent_value();
       delete _p[current_name()];
-      parent_field.setValue?.({ ..._p });
+      if (IsNotUndefinedOrNull(_p) && !Array.isArray(_p)) {
+        parent_field.setValue?.({ ..._p });
+      }
     } else {
       parent_field?.deleteField?.();
     }
@@ -125,7 +133,8 @@ export const FieldContextProvider = <V = any,>(
       current_value,
       current_defaultValue,
       _set_current_value,
-      deleteField
+      deleteField,
+      (parent_field.deep ?? 0) + 1
     );
   });
 
