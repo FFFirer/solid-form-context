@@ -1,12 +1,14 @@
 import {
   createMemo,
   createRenderEffect,
+  JSX,
   Match,
   mergeProps,
   onCleanup,
   onMount,
   splitProps,
   type ComponentProps,
+  type Setter,
   type ValidComponent,
 } from "solid-js";
 import { Dynamic } from "solid-js/web";
@@ -85,6 +87,50 @@ const FormControl = <
         ></Dynamic>
       )}
     </>
+  );
+};
+
+export const withFormControl = <
+  V,
+  C extends ValueAccessibleComponent<V, ValueAccessor<V>> | ValidComponent,
+  P extends ComponentProps<C>,
+  E extends keyof P
+>(
+  control: C,
+  {
+    valuePropName = undefined,
+    valueChangedEventName = undefined,
+    handler = undefined,
+    defaultValue = undefined,
+    controlProps = undefined,
+  }: {
+    valuePropName?: keyof ComponentProps<C>;
+    valueChangedEventName?: E;
+    handler?: (setter: Setter<V>) => P[E];
+    defaultValue?: V;
+    controlProps?: Partial<ComponentProps<C>>;
+  } = {}
+) => {
+  const _valuePropName = valuePropName ?? "value";
+  const _changedEventName = valueChangedEventName ?? "onChange";
+
+  const _defaultHandler: (
+    setter?: Setter<V>
+  ) => JSX.ChangeEventHandlerUnion<C, Event> = (setter?) => (e) =>
+    setter?.((e.target as any)?.[_valuePropName]);
+  const _handler = handler ?? _defaultHandler;
+
+  return (p: P) => (
+    <FormControl
+      control={control}
+      controlProps={{ ...controlProps, ...p }}
+      controlValuePropName={_valuePropName}
+      onControlValueChanged={{
+        eventName: _changedEventName,
+        generateHandler: _defaultHandler,
+      }}
+      defaultValue={defaultValue}
+    />
   );
 };
 

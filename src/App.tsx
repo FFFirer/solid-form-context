@@ -19,6 +19,13 @@ import {
 } from "../lib";
 import Input from "./components/Input";
 import { FieldList2 } from "./components/new-field-list";
+import { withFormControl } from "@lib/form-control";
+
+const FormInput = withFormControl("input");
+const FormCheckbox = withFormControl("input", {
+  valuePropName: "checked",
+  controlProps: { type: "checkbox" },
+});
 
 const App: Component = () => {
   const [form, setForm] = createSignal<IFormInstance | undefined>(undefined);
@@ -203,6 +210,12 @@ const App: Component = () => {
                 </FormField>
               </Match>
             </Switch>
+          </Border>
+
+          <Border>
+            <FormField name={"D"}>
+              <FormInput placeholder="field D" />
+            </FormField>
           </Border>
         </Form>
 
